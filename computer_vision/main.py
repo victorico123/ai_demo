@@ -1,9 +1,9 @@
-import cv2
+import cv2 # type: ignore
 import argparse
 
-from ultralytics import YOLO
-import supervision as sv
-import numpy as np
+from ultralytics import YOLO # type: ignore
+import supervision as sv # type: ignore
+import numpy as np # type: ignore
 
 
 ZONE_POLYGON = np.array([

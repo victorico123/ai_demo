@@ -1,7 +1,7 @@
-import torch
-import ollama
+import torch # type: ignore
+import ollama # type: ignore
 import os
-from openai import OpenAI
+from openai import OpenAI # type: ignore
 import argparse
 import json
 

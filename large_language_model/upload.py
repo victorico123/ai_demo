@@ -1,7 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import filedialog
-import PyPDF2
+import PyPDF2 # type: ignore
 import re
 import json
 
