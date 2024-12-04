@@ -1,36 +1,51 @@
-<!-- # RAG lokal dengan Ollama
+# Menjalankan Mistral Secara Lokal dengan Ollama
 
-## Syarat menjalankan demo
-- Python versi 3.12.x
-- Git
+Demo **chatbot AI** berbasis CLI (Command Line Interface) menggunakan model **Mistral** yang dijalankan melalui platform **Ollama**. Dalam demo ini, Anda dapat berinteraksi langsung dengan model Mistral untuk mencoba berbagai kemampuan model bahasa besar, seperti percakapan, pemahaman teks, dan pembuatan respons berbasis query yang diberikan.
 
-## Setup
-1. git clone https://github.com/victorico123/ai_demo.git
-2. cd path/to/dir/large_language_model
-3. pip install -r requirements.txt
-4. Install [Ollama](https://ollama.com/download) <https://ollama.com/download>
-5. ollama pull llama3
-6. ollama pull mxbai-embed-large
-7. run upload.py (.pdf, .txt, JSON)
-8. run localrag.py (with query re-write)
+## 📋 Persyaratan
+Sebelum menjalankan demo ini, pastikan Anda sudah menyiapkan beberapa hal berikut:
+- **Ollama** harus terinstal di sistem Anda.
+- Koneksi internet yang stabil untuk mengunduh model dan menjalankan interaksi.
 
-## Apa itu RAG?
-RAG (Retrieval-Augmented Generation) adalah arsitektur model dalam pemrosesan bahasa alami (NLP) yang menggabungkan dua komponen utama: retrieval (pencarian) dan generation (pembangunan).
+**Catatan**: Ollama adalah aplikasi yang memungkinkan Anda untuk menggunakan berbagai model bahasa besar (Large Language Models / LLMs) tanpa memerlukan konfigurasi yang rumit. Anda cukup mengunduh dan menjalankannya langsung melalui CLI.
 
-### Cara Kerja RAG:
-Retrieval (Pencarian): Model pertama-tama mencari dan mengambil informasi atau dokumen yang relevan dari basis data pengetahuan besar (misalnya, basis data atau dokumen teks).
-Generation (Pembangunan): Setelah mendapatkan dokumen relevan, model kemudian menghasilkan jawaban atau respons berdasarkan kombinasi antara query input dan informasi yang diambil, seringkali menggunakan model bahasa seperti GPT.
-Keuntungan Utama:
-Akurasi lebih tinggi: Dengan mengambil informasi yang relevan dari sumber eksternal, model RAG memberikan jawaban yang lebih akurat dan berbasis konteks.
-Penanganan pertanyaan langka: Dapat menjawab pertanyaan atau menghasilkan teks berdasarkan informasi yang tidak langsung disimpan dalam model, tetapi dapat diambil dari sumber eksternal.
+## 🚀 Setup dan Instalasi
 
-## Apa itu olama?
-Ollama adalah sebuah platform atau aplikasi yang mengintegrasikan teknologi Large Language Models (LLM) untuk memungkinkan interaksi dengan model-model AI secara langsung. Ollama memungkinkan pengguna untuk berbicara atau berkomunikasi dengan berbagai model bahasa besar untuk berbagai keperluan, seperti percakapan, penulisan teks, pemrograman, dan banyak lagi. https://www.ollama.com.
+Ikuti langkah-langkah berikut untuk menjalankan **Mistral** secara lokal dengan menggunakan **Ollama**:
 
-### Referensi
-https://www.youtube.com/c/AllAboutAI -->
+1. **Install Ollama**:
+   - Ollama adalah platform yang memungkinkan interaksi dengan berbagai model LLMs. Untuk menginstalnya, kunjungi [Ollama Download](https://ollama.com/download) dan pilih versi yang sesuai dengan sistem operasi yang Anda gunakan (Windows, macOS, atau Linux).
+   - Ikuti petunjuk instalasi yang disediakan di halaman tersebut untuk memastikan Ollama terinstal dengan benar pada sistem Anda.
 
+2. **Tarik model Mistral dengan Ollama**:
+   - Setelah Ollama terinstal, buka terminal atau Command Prompt pada sistem Anda, dan jalankan perintah berikut untuk mengunduh model **Mistral**:
+     ```bash
+     ollama pull mistral
+     ```
+     Perintah ini akan mengunduh model Mistral yang siap digunakan. Pastikan Anda memiliki koneksi internet yang baik karena model ini memiliki ukuran yang besar dan mungkin memerlukan beberapa menit untuk selesai diunduh.
 
+3. **Jalankan Mistral**:
+   - Setelah model berhasil diunduh, jalankan model **Mistral** dengan menggunakan perintah berikut:
+     ```bash
+     ollama run mistral
+     ```
+     Perintah ini akan memulai eksekusi model Mistral dan mempersiapkan model untuk menerima input query.
+
+4. **Mulai Interaksi**:
+   - Setelah menjalankan perintah `ollama run mistral`, tunggu beberapa saat hingga model siap untuk menerima input.
+   - Anda sekarang dapat mulai berinteraksi dengan model **Mistral**. Cukup masukkan **query** atau pertanyaan Anda di CLI, dan model akan memberikan respons berbasis pengetahuan yang ada dalam model tersebut.
+   - Misalnya, Anda bisa bertanya tentang topik tertentu atau meminta model untuk menjelaskan konsep tertentu.
+   - **Contoh interaksi**:
+     ```
+     User: Siapa penemu komputer?
+     Mistral: Penemu komputer pertama kali adalah Charles Babbage, yang dikenal sebagai "bapak komputer".
+     ```
+
+   - **Catatan**: Untuk keluar dari program, tekan `Ctrl+C` di terminal atau Command Prompt Anda.
+
+---
+
+Dengan langkah-langkah di atas, Anda dapat menjalankan **Mistral** secara lokal menggunakan Ollama. Model ini memberikan pengalaman langsung dalam berinteraksi dengan chatbot AI yang dapat membantu menjawab berbagai pertanyaan berbasis pengetahuan yang dimilikinya.
 
 
 # RAG Lokal dengan Ollama
@@ -51,7 +66,8 @@ Ikuti langkah-langkah di bawah ini untuk mempersiapkan demo **RAG Lokal**:
    ```
 2. **Masuk ke direktori** untuk model Large Language:
    ```bash
-   cd path/to/dir/large_language_model
+   cd ai_demo
+   cd large_language_model
    ```
 3. **Install dependencies** menggunakan `pip`:
    ```bash
@@ -103,6 +119,21 @@ Ikuti langkah-langkah di bawah ini untuk mempersiapkan demo **RAG Lokal**:
 - **Penerjemahan** dan banyak lagi
 
 Ollama menyediakan antarmuka yang **mudah digunakan**, memungkinkan pengguna untuk mengakses model-model besar tanpa memerlukan konfigurasi rumit. Anda dapat mengunduh dan memulai menggunakan Ollama dengan mengikuti instruksi di [Ollama Website](https://www.ollama.com).
+
+## Perbandingan Mistral dan Llama 3.1
+
+| **Fitur**             | **Mistral**                                   | **Llama 3.1**                                    |
+|-----------------------|-----------------------------------------------|--------------------------------------------------|
+| **Jenis Model**       | Model bahasa besar (LLM) berbasis GPT-style  | Model bahasa besar (LLM) berbasis Meta's Llama  |
+| **Ukuran Model**      | 7B parameter (Mistral 7B)                     | 7B, 13B, dan 30B parameter (Llama 3.1)            |
+| **Kecepatan dan Efisiensi** | Mistral dirancang untuk efisiensi dalam pemrosesan cepat | Llama 3.1 lebih berat, membutuhkan lebih banyak daya komputasi |
+| **Kemampuan Generasi**| Terbaik dalam dialog dan teks berbasis konteks | Sangat baik dalam konteks percakapan alami dan pemahaman teks panjang |
+| **Fokus Penggunaan**  | Dikenal untuk percakapan AI interaktif dan aplikasi chatbot | Lebih fokus pada penelitian NLP dan tugas-tugas bahasa besar |
+| **Kemampuan Multi-Tugas** | Mendukung berbagai aplikasi, termasuk chatbots dan analisis teks | Ideal untuk penggunaan dalam penerjemahan dan sintesis teks |
+| **Sumber Pengembangan** | Dikembangkan oleh tim Mistral.ai             | Dikembangkan oleh Meta (Facebook)                |
+| **Akses dan Ketersediaan** | Tersedia melalui Ollama untuk penggunaan lokal | Tersedia melalui Meta dan platform open-source lainnya |
+| **Model Pre-trained** | Pre-trained dengan kemampuan bahasa yang canggih | Pre-trained dengan fokus pada penerjemahan dan analisis teks |
+| **Kompatibilitas**    | Dapat dijalankan di berbagai platform dengan Ollama | Dapat dijalankan di berbagai platform dan alat open-source |
 
 ---
 

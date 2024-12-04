@@ -22,7 +22,7 @@ def get_relevant_context(rewritten_input, vault_embeddings, vault_content, top_k
     if vault_embeddings.nelement() == 0:  # Check if the tensor has any elements
         return []
     # Encode the rewritten input
-    input_embedding = ollama.embeddings(model='llama3.1', prompt=rewritten_input)["embedding"]
+    input_embedding = ollama.embeddings(model='mxbai-embed-large', prompt=rewritten_input)["embedding"]
     # Compute cosine similarity between the input and vault embeddings
     cos_scores = torch.cosine_similarity(torch.tensor(input_embedding).unsqueeze(0), vault_embeddings)
     # Adjust top_k if it's greater than the number of available scores
@@ -36,22 +36,22 @@ def get_relevant_context(rewritten_input, vault_embeddings, vault_content, top_k
 def rewrite_query(user_input_json, conversation_history, ollama_model):
     user_input = json.loads(user_input_json)["Query"]
     context = "\n".join([f"{msg['role']}: {msg['content']}" for msg in conversation_history[-2:]])
-    prompt = f"""Rewrite the following query by incorporating relevant context from the conversation history.
-    The rewritten query should:
+    prompt = f"""Tulis ulang pertanyaan/pertanyaan berikut dengan menggabungkan konteks relevan dari riwayat percakapan.
+    Pertanyaan/pertanyaan yang ditulis ulang harus:
     
-    - Preserve the core intent and meaning of the original query
-    - Expand and clarify the query to make it more specific and informative for retrieving relevant context
-    - Avoid introducing new topics or queries that deviate from the original query
-    - DONT EVER ANSWER the Original query, but instead focus on rephrasing and expanding it into a new query
+    - Menjaga makna inti dari pertanyaan/pertanyaan asli
+    - Memperluas dan memperjelas pertanyaan/pertanyaan agar lebih spesifik dan informatif dalam mengambil konteks yang relevan
+    - Menghindari memperkenalkan topik atau pertanyaan/pertanyaan baru yang menyimpang dari pertanyaan/pertanyaan asli
+    - JANGAN PERNAH MENJAWAB pertanyaan/pertanyaan asli, tetapi fokuslah untuk menulis ulang dan memperluasnya menjadi pertanyaan/pertanyaan baru
     
-    Return ONLY the rewritten query text, without any additional formatting or explanations.
+    Kembalikan HANYA teks pertanyaan/pertanyaan yang ditulis ulang, tanpa format atau penjelasan tambahan.
     
-    Conversation History:
+    Riwayat Percakapan:
     {context}
     
-    Original query: [{user_input}]
+    Pertanyaan/pertanyaan User: [{user_input}]
     
-    Rewritten query: 
+    Pertanyaan/pertanyaan yang Ditulis Ulang: 
     """
     response = client.chat.completions.create(
         model=ollama_model,
@@ -61,34 +61,34 @@ def rewrite_query(user_input_json, conversation_history, ollama_model):
         temperature=0.1,
     )
     rewritten_query = response.choices[0].message.content.strip()
-    return json.dumps({"Rewritten Query": rewritten_query})
+    return json.dumps({"Pernyataan yang Ditulis Ulang": rewritten_query})
    
 def ollama_chat(user_input, system_message, vault_embeddings, vault_content, ollama_model, conversation_history):
     conversation_history.append({"role": "user", "content": user_input})
     
     if len(conversation_history) > 1:
         query_json = {
-            "Query": user_input,
-            "Rewritten Query": ""
+            "Pernyataan": user_input,
+            "Pernyataan yang ditulis ulang": ""
         }
         rewritten_query_json = rewrite_query(json.dumps(query_json), conversation_history, ollama_model)
         rewritten_query_data = json.loads(rewritten_query_json)
         rewritten_query = rewritten_query_data["Rewritten Query"]
-        print(PINK + "Original Query: " + user_input + RESET_COLOR)
-        print(PINK + "Rewritten Query: " + rewritten_query + RESET_COLOR)
+        print(PINK + "Pernyataan asli: " + user_input + RESET_COLOR)
+        print(PINK + "Pernyataan yang ditulis ulang: " + rewritten_query + RESET_COLOR)
     else:
         rewritten_query = user_input
     
     relevant_context = get_relevant_context(rewritten_query, vault_embeddings, vault_content)
     if relevant_context:
         context_str = "\n".join(relevant_context)
-        print("Context Pulled from Documents: \n\n" + CYAN + context_str + RESET_COLOR)
+        print("Konteks yang diambil dari dalam dokumen: \n\n" + CYAN + context_str + RESET_COLOR)
     else:
-        print(CYAN + "No relevant context found." + RESET_COLOR)
+        print(CYAN + "Tidak ada konteks yang relevan." + RESET_COLOR)
     
     user_input_with_context = user_input
     if relevant_context:
-        user_input_with_context = user_input + "\n\nRelevant Context:\n" + context_str
+        user_input_with_context = user_input + "\n\nKonteks relevan:\n" + context_str
     
     conversation_history[-1]["content"] = user_input_with_context
     
@@ -108,47 +108,47 @@ def ollama_chat(user_input, system_message, vault_embeddings, vault_content, oll
     return response.choices[0].message.content
 
 # Parse command-line arguments
-print(NEON_GREEN + "Parsing command-line arguments..." + RESET_COLOR)
+print(NEON_GREEN + "Mengurai argumen setiap baris perintah..." + RESET_COLOR)
 parser = argparse.ArgumentParser(description="Ollama Chat")
 parser.add_argument("--model", default="llama3", help="Ollama model to use (default: llama3)")
 args = parser.parse_args()
 
 # Configuration for the Ollama API client
-print(NEON_GREEN + "Initializing Ollama API client..." + RESET_COLOR)
+print(NEON_GREEN + "Inisialisasi Ollama API client..." + RESET_COLOR)
 client = OpenAI(
     base_url='http://localhost:11434/v1',
     api_key='llama3'
 )
 
 # Load the vault content
-print(NEON_GREEN + "Loading vault content..." + RESET_COLOR)
+print(NEON_GREEN + "Memuat konten dokumen dari vault..." + RESET_COLOR)
 vault_content = []
 if os.path.exists("vault.txt"):
     with open("vault.txt", "r", encoding='utf-8') as vault_file:
         vault_content = vault_file.readlines()
 
 # Generate embeddings for the vault content using Ollama
-print(NEON_GREEN + "Generating embeddings for the vault content..." + RESET_COLOR)
+print(NEON_GREEN + "Menghasilkan embeddings untuk konten dari vault..." + RESET_COLOR)
 vault_embeddings = []
 for content in vault_content:
-    response = ollama.embeddings(model='llama3.1', prompt=content)
+    response = ollama.embeddings(model='mxbai-embed-large', prompt=content)
     vault_embeddings.append(response["embedding"])
 
 # Convert to tensor and print embeddings
-print("Converting embeddings to tensor...")
+print("Mengubah embeddings menjadi tensor...")
 vault_embeddings_tensor = torch.tensor(vault_embeddings) 
-print("Embeddings for each line in the vault:")
+print("Embeddings dari setiap bari dalam vault:")
 print(vault_embeddings_tensor)
 
 # Conversation loop
-print("Starting conversation loop...")
+print("Memulai perbincangan...")
 conversation_history = []
-system_message = "You are a helpful assistant that is an expert at extracting the most useful information from a given text. Also bring in extra relevant infromation to the user query from outside the given context."
+system_message = "Anda adalah asisten yang membantu dan ahli dalam mengekstraksi informasi paling berguna dari teks tertentu. Juga berikan informasi tambahan yang relevan ke permintaan pengguna dari luar konteks tertentu. Jawablah pertanyaan sesuai dengan bahasa dari pertanyaan yang diajukan."
 
 while True:
-    user_input = input(YELLOW + "Ask a query about your documents (or type 'quit' to exit): " + RESET_COLOR)
-    if user_input.lower() == 'quit':
+    user_input = input(YELLOW + "berikan pertanyaan mengenai dokumen anda (atau ketik 'keluar' untuk keluar): " + RESET_COLOR)
+    if user_input.lower() == 'keluar':
         break
     
     response = ollama_chat(user_input, system_message, vault_embeddings_tensor, vault_content, args.model, conversation_history)
-    print(NEON_GREEN + "Response: \n\n" + response + RESET_COLOR)
+    print(NEON_GREEN + "Respon: \n\n" + response + RESET_COLOR)
