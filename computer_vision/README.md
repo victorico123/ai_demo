@@ -54,7 +54,8 @@ Ikuti langkah-langkah berikut untuk menjalankan fitur penghitungan orang:
    ```
 2. **Arahkan ke Direktori**:
    ```bash
-   cd path/to/dir/computer_vision
+   cd ai_demo
+   cd computer_vision
    ```
 3. **Install Dependencies**:
    ```bash
