@@ -8,6 +8,8 @@ Kecerdasan Buatan (AI) adalah bidang ilmu komputer yang fokus pada pembuatan sis
 - [Large Language Models (LLM)](#large-language-models-llm)
 - [Mengapa AI Penting?](#mengapa-ai-penting)
 - [Kesimpulan](#kesimpulan)
+- [Kontribusi](#kontribusi)
+- [Lisensi](#lisensi)
 
 ## Exploratory Data Analysis (EDA)
 
