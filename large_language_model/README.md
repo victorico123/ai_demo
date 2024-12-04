@@ -113,10 +113,4 @@ Ollama menyediakan antarmuka yang **mudah digunakan**, memungkinkan pengguna unt
 
 ---
 
-## 🔧 Kontribusi
-
-Kami menyambut baik kontribusi dari Anda! Jika Anda tertarik untuk berkontribusi dalam proyek ini, Anda dapat melakukan **fork** dan **pull request**. Pastikan untuk menyertakan dokumentasi dan pengujian yang diperlukan jika ada perubahan besar yang dilakukan.
-
----
-
 Terima kasih telah mencoba demo **RAG Lokal dengan Ollama**! Kami harap demo ini dapat membantu Anda memahami konsep **RAG** dalam pemrosesan bahasa alami dan aplikasinya dalam menjawab pertanyaan berbasis dokumen eksternal.

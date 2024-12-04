@@ -8,7 +8,6 @@ Kecerdasan Buatan (AI) adalah bidang ilmu komputer yang fokus pada pembuatan sis
 - [Large Language Models (LLM)](#large-language-models-llm)
 - [Mengapa AI Penting?](#mengapa-ai-penting)
 - [Kesimpulan](#kesimpulan)
-- [Kontribusi](#kontribusi)
 - [Lisensi](#lisensi)
 
 ## Exploratory Data Analysis (EDA)
@@ -70,16 +69,11 @@ AI telah membawa perubahan besar dalam berbagai bidang dan kehidupan kita sehari
 
 AI terus berkembang dan membuka banyak peluang baru di berbagai sektor. Dengan mempelajari tiga bidang utama ini, kita dapat memahami bagaimana AI digunakan untuk menyelesaikan masalah dunia nyata, mulai dari menganalisis data (EDA), memahami dan memproses gambar (Computer Vision), hingga berinteraksi dengan bahasa manusia (LLM).
 
-## Kontribusi
-Kontribusi sangat diterima! Jika Anda ingin berkontribusi pada repository ini, silakan fork repository ini dan buat pull request. Untuk perubahan besar, harap buka isu terlebih dahulu untuk mendiskusikan perubahan yang ingin Anda buat.
-
 ## Lisensi
 Proyek ini dilisensikan di bawah Lisensi MIT - lihat file [LICENSE](LICENSE) untuk detail lebih lanjut.
 
 ---
 
 Jika Anda tertarik untuk lebih mendalami salah satu atau semua bidang ini, banyak sumber daya dan tutorial yang tersedia untuk membantu Anda memulai perjalanan AI Anda.
-
----
 
 Selamat mengeksplorasi dunia AI! :rocket:
