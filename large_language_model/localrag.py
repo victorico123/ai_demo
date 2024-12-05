@@ -68,8 +68,8 @@ def ollama_chat(user_input, system_message, vault_embeddings, vault_content, oll
     
     if len(conversation_history) > 1:
         query_json = {
-            "Pernyataan": user_input,
-            "Pernyataan yang ditulis ulang": ""
+            "Query": user_input,
+            "Rewritten Query": ""
         }
         rewritten_query_json = rewrite_query(json.dumps(query_json), conversation_history, ollama_model)
         rewritten_query_data = json.loads(rewritten_query_json)
