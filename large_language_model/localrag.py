@@ -18,7 +18,7 @@ def open_file(filepath):
         return infile.read()
 
 # Function to get relevant context from the vault based on user input
-def get_relevant_context(rewritten_input, vault_embeddings, vault_content, top_k=3):
+def get_relevant_context(rewritten_input, vault_embeddings, vault_content, top_k=5):
     if vault_embeddings.nelement() == 0:  # Check if the tensor has any elements
         return []
     # Encode the rewritten input
@@ -61,7 +61,7 @@ def rewrite_query(user_input_json, conversation_history, ollama_model):
         temperature=0.1,
     )
     rewritten_query = response.choices[0].message.content.strip()
-    return json.dumps({"Pernyataan yang Ditulis Ulang": rewritten_query})
+    return json.dumps({"Rewritten Query": rewritten_query})
    
 def ollama_chat(user_input, system_message, vault_embeddings, vault_content, ollama_model, conversation_history):
     conversation_history.append({"role": "user", "content": user_input})
@@ -127,12 +127,24 @@ if os.path.exists("vault.txt"):
     with open("vault.txt", "r", encoding='utf-8') as vault_file:
         vault_content = vault_file.readlines()
 
+# # Generate embeddings for the vault content using Ollama
+# print(NEON_GREEN + "Menghasilkan embeddings untuk konten dari vault..." + RESET_COLOR)
+# vault_embeddings = []
+# for content in vault_content:
+#     response = ollama.embeddings(model='llama3.1', prompt=content)
+#     vault_embeddings.append(response["embedding"])
+
 # Generate embeddings for the vault content using Ollama
 print(NEON_GREEN + "Menghasilkan embeddings untuk konten dari vault..." + RESET_COLOR)
 vault_embeddings = []
 for content in vault_content:
-    response = ollama.embeddings(model='mxbai-embed-large', prompt=content)
-    vault_embeddings.append(response["embedding"])
+    if (len(content.strip()) > 0):
+        print(NEON_GREEN + ">" + content + RESET_COLOR)
+        response = ollama.embeddings(model='mxbai-embed-large', prompt='')
+        response = ollama.embeddings(model='mxbai-embed-large', prompt=content)
+        vault_embeddings.append(response["embedding"])
+    else:
+        print(NEON_GREEN + "! skip empty line" + RESET_COLOR)
 
 # Convert to tensor and print embeddings
 print("Mengubah embeddings menjadi tensor...")
